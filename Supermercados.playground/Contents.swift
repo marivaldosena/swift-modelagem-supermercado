@@ -68,6 +68,7 @@ class Categoria {
     }
 }
 
+//MARK: - Proprietário
 class Proprietario {
     var nomeProprietario: String
     var dataNascimento: String
