@@ -68,26 +68,53 @@ class Categoria {
     }
 }
 
+class Proprietario {
+    var nomeProprietario: String
+    var dataNascimento: String
+    var estabelecimentos: [Estabelecimento]
+    var telefone: String
+    var enderecoResidencial: Endereco?
+    
+    init(nomeProprietario: String, dataNascimento: String, telefone: String) {
+        self.nomeProprietario = nomeProprietario
+        self.dataNascimento = dataNascimento
+        self.telefone = telefone
+        self.estabelecimentos = []
+        //self.enderecoResidencial = enderecoResidencial
+    }
+    
+    func incluirEnderecoResidencial(enderecoResidencial: Endereco) {
+        self.enderecoResidencial = enderecoResidencial
+    }
+}
+
 //MARK: - Endereço
 class Endereco {
     var logradouro: String
     var numero: Int?
-    var nome: String
+    var nomeRua: String
     var cep: String
+    var pontoReferencia: String
+    var apelido: String
     
-    init(nome: String, numero: Int?, logradouro: String, cep: String) {
-        self.nome = nome
+    
+    init(nomeRua: String, numero: Int?, logradouro: String, cep: String, apelido: String, pontoReferencia: String?) {
+        self.nomeRua = nomeRua
         self.numero = numero
         self.logradouro = logradouro
         self.cep = cep
+        self.apelido = apelido
+        self.pontoReferencia = pontoReferencia ?? ""
     }
 }
 
 //MARK: - Estabelecimento
 class Estabelecimento {
     var endereco: Endereco
+    var proprietario: Proprietario
     
-    init(endereco: Endereco) {
+    init(proprietario: Proprietario, endereco: Endereco) {
+        self.proprietario = proprietario
         self.endereco = endereco
     }
     
@@ -95,12 +122,16 @@ class Estabelecimento {
 
 //MARK: - Restaurante
 class Restaurante: Estabelecimento {
-    
+    override init(proprietario: Proprietario, endereco: Endereco) {
+        super.init(proprietario: proprietario, endereco: endereco)
+    }
 }
 
 //MARK: - Supermercado
 class Supermercado: Estabelecimento {
-    
+    override init(proprietario: Proprietario, endereco: Endereco) {
+        super.init(proprietario: proprietario, endereco: endereco)
+    }
 }
 
 //MARK: - Imagem
@@ -120,6 +151,29 @@ class Imagem {
         self.largura = largura
         self.extensao = extensao
     }
+    
+    func alterarTituloImagem(novoTitulo name: String) {
+        self.titulo = name
+    }
+    
+    func alterarDescricaoImagem(novaDescricao descricao: String) {
+        self.descricao = descricao
+    }
+    
+    func alterarUrlImagem(novaUrl url: String) {
+        self.url = url
+    }
+    
+    func redimensionarImagem(novaLargura largura: Double, novaAltura altura: Double) {
+        self.largura = largura
+        self.altura = altura
+    }
+    
+    func redimensionarImagem(fator: Double) {
+        self.largura *= fator
+        self.altura *= altura
+    }
+    
 }
 
 //MARK: - Produto
@@ -151,7 +205,18 @@ class Produto {
     }
     
     func alterarNomeProduto(de antigoNome: String, para novoNome: String) {
+        var idx = -1
         
+        for (index, item) in self.imagens.enumerated() {
+            if (item.titulo == antigoNome) {
+                idx = index
+                break
+            }
+        }
+        
+        if idx > -1 {
+            self.imagens[idx].titulo = novoNome
+        }
     }
 }
 
@@ -163,4 +228,6 @@ enum TipoProduto {
 
 //MARK: - Instanciação
 let categoria = Categoria(nomeCategoria: "Mercados & Afins", descricao: "Rápido e prático como tem que ser")
-print(categoria.nomeCategoria)
+print(categoria.descricao)
+
+//TODO: Fazer a composição e associação de objetos durante a criação para deixar o sistema mais robusto.
