@@ -5,10 +5,11 @@ Este documento refere-se a modelagem de dados de um supermercado baseado em um p
 ## Tópicos
 
 - [Requerimentos](#requerimentos)
-- [Requisitos de Modelagem](#requisitos-de-modelagem)
   - [Swift](#swift)
   - [Xcode](#xcode)
   - [macOS](#macos)
+- [Descrição](#descrição)
+- [Requisitos de Modelagem](#requisitos-de-modelagem)
 
 ## Requerimentos
 
